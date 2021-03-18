@@ -4,20 +4,30 @@
 }
 *{
     font-family: Montserrat;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 body{
     /* background-color:#f4f4f4; */
 }
 .container{
     padding:0 80px;
-    display: flex;
+    align-items: center;
     
+}
+.home-content{
+    height:100vh;
+}
+.row{
+    display:flex;
 }
 .left,.right{
     /* border:1px solid black; */
 }
 .home-text{
     color:#54a5a8;
+    margin-bottom:15px;
 }
 .brand-btn{
     background-color:#54a5a8;
@@ -27,7 +37,12 @@ body{
     text-decoration: none;
     font-size:22px;
     border-radius:5px;
+    
 
+}
+ol a{
+    text-decoration: none;
+    color:inherit;
 }
 .brand-btn:hover{
     background-color: #fff;
@@ -36,6 +51,6 @@ body{
 }
 .illustration{
     width:80%;
-    
+   
     
 }

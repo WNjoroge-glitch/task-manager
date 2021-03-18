@@ -8,11 +8,34 @@
     <title>LIST</title>
 </head>
 <body>
+
+    <nav class="container">
+        <a href="/">LIST</a>
+    </nav>
     <div class="container">
-        <h3>one</h3>
-        <h3>two</h3>
-        <h3>three</h3>
-        <a href="/">Back to home</a>
+        <% const items =[
+        {'id':1,'item':'Potatoes'},
+        {'id':2,'item':'Chilli'},
+        {'id':3,'item' : 'Yams'}
+        ]
+         %>
+         <ol>
+             <a href="/potatoes">
+                <li>Potatoes</li>
+             </a>
+             <a href="/chilli">
+                <li>Chilli</li>
+             </a>
+             <a href="/yams">
+                 <li>Yams</li>
+
+                 
+
+             </a>
+            
+             
+             
+         </ol>
     </div>
     
 </body>

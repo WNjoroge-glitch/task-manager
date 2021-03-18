@@ -14,7 +14,15 @@ app.get('/', (req,res) => {
 app.get('/items',(req,res)=>{
    res.render("items")
 })
-
+app.get('/potatoes',(req,res) => {
+   res.render('potatoes')
+})
+app.get('/chilli',(req,res) => {
+   res.render('chilli')
+})
+app.get('/yams',(req,res) => {
+   res.render("yams")
+})
 
 
 
