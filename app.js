@@ -7,22 +7,20 @@ app.use(express.static("public"));
 app.set('views','./views')
 app.set('view engine','ejs')
 
+const items = [{id:1,name:'Potatoes'},{id:2,name:'Chilli'},{id:3,name : 'Yams'}]
+
 app.get('/', (req,res) => {
    res.render("index")
 } );
 
 app.get('/items',(req,res)=>{
-   res.render("items")
+   res.render("items",{ items:items })
 })
-app.get('/potatoes',(req,res) => {
-   res.render('potatoes')
+
+app.get('/create',(req,res) => {
+   res.render('add');
 })
-app.get('/chilli',(req,res) => {
-   res.render('chilli')
-})
-app.get('/yams',(req,res) => {
-   res.render("yams")
-})
+
 
 
 

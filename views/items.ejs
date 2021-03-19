@@ -1,42 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style.css">
-    <title>LIST</title>
-</head>
-<body>
-
-    <nav class="container">
-        <a href="/">LIST</a>
-    </nav>
-    <div class="container">
-        <% const items =[
-        {'id':1,'item':'Potatoes'},
-        {'id':2,'item':'Chilli'},
-        {'id':3,'item' : 'Yams'}
-        ]
-         %>
-         <ol>
-             <a href="/potatoes">
-                <li>Potatoes</li>
-             </a>
-             <a href="/chilli">
-                <li>Chilli</li>
-             </a>
-             <a href="/yams">
-                 <li>Yams</li>
-
-                 
-
-             </a>
-            
-             
-             
-         </ol>
-    </div>
+<%- include('partials/header') %>
     
-</body>
-</html>
+    <div class="container">
+        
+         <% for(let item of items){ %>
+            <p><%= `${item.id}.${item.name}` %></p>
+
+         <% }; %>
+    </div>
+
+<%- include('partials/footer') %>
+    

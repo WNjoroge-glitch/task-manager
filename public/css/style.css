@@ -8,8 +8,17 @@
     padding:0;
     box-sizing:border-box;
 }
-body{
-    /* background-color:#f4f4f4; */
+
+.bg-grey{
+    background-color:#fff;
+}
+.bg-light{
+    background-color: #f4f4f4;
+    
+}
+header{
+    height:80px;
+    
 }
 .container{
     padding:0 80px;
@@ -19,16 +28,19 @@ body{
 .home-content{
     height:100vh;
 }
+
+.align-center{
+    align-items: center;
+}
 .row{
     display:flex;
 }
-.left,.right{
-    /* border:1px solid black; */
-}
+
 .home-text{
     color:#54a5a8;
     margin-bottom:15px;
 }
+
 .brand-btn{
     background-color:#54a5a8;
     border-color:#54a5a8;
@@ -37,9 +49,8 @@ body{
     text-decoration: none;
     font-size:22px;
     border-radius:5px;
-    
-
 }
+
 ol a{
     text-decoration: none;
     color:inherit;
@@ -49,8 +60,7 @@ ol a{
     color:#54a5a8;
     border:solid 2px #54a5a8;
 }
+
 .illustration{
     width:80%;
-   
-    
 }
