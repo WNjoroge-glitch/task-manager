@@ -1,11 +1,15 @@
 <%- include('partials/header') %>
     
     <div class="container">
+        <a class="btn" id="add" href="/create">Add Item</a>
         
-         <% for(let item of items){ %>
-            <p><%= `${item.id}.${item.name}` %></p>
-
-         <% }; %>
+        <div class="items">
+            <% for(let item of items){ %>
+                <p class="item bg-grey"><%= `${item.id}.${item.name}` %></p>
+    
+             <% }; %>
+        </div>
+        
     </div>
 
 <%- include('partials/footer') %>

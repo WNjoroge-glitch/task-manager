@@ -1,0 +1,19 @@
+<%-include('partials/header')%>
+
+
+<div class="container">
+    <!-- <h2 class="brand-text">Add new item to the list</h2> -->
+   
+    <form action="/create" method="post">
+        <div class="form-content">
+        <input type="text" name="newItem" id="" class="new-item bg-grey" placeholder="Enter new item here">
+        <div class="form-btns">
+            <a href="/items" class="btn">Cancel</a>
+            <input type="submit" class="btn" value="Add">
+        </div>
+    </div>
+    </form>
+
+</div>
+
+<% -include('partials/header')%>

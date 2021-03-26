@@ -9,16 +9,17 @@
     box-sizing:border-box;
 }
 
-.bg-grey{
+.bg-light{
     background-color:#fff;
 }
-.bg-light{
+.bg-grey{
     background-color: #f4f4f4;
     
 }
 header{
     height:80px;
-    
+    margin-bottom: 15px;
+    border-radius: 5px;;
 }
 .container{
     padding:0 80px;
@@ -40,6 +41,9 @@ header{
     color:#54a5a8;
     margin-bottom:15px;
 }
+.brand-text{
+    color:#54a5a8;
+}
 
 .brand-btn{
     background-color:#54a5a8;
@@ -60,7 +64,67 @@ ol a{
     color:#54a5a8;
     border:solid 2px #54a5a8;
 }
+.btn{
+    background-color:#54a5a8;
+    border-color:#54a5a8;
+    font-size:18px;
+    color:white;
+    text-decoration: none;
+    margin:9px 0;
+    padding:7px 6px;
+}
+.btn:hover{
+    background-color: #488c8f;
+    border-color: #488c8f;
+}
 
 .illustration{
     width:80%;
+}
+.items{
+    margin:20px 0;
+    
+}
+/* #add{
+
+}  */
+.items{
+    margin:20px 0;
+    
+}
+.item{
+    padding:8px 15px;
+    margin-bottom:4px;
+    font-size:20px;
+}
+form{
+    display:flex;
+    justify-content: center;
+    
+    
+}
+.form-content{
+    width:60%;
+}
+.new-item{
+    border-color:#f4f4f4;
+    border:0;
+    outline:none;
+    font-size:26px;
+    padding:8px;
+    border-radius: 5px;
+    width:100%;
+}
+.form-btns{
+display:flex;
+justify-content: center;
+}
+.form-btns > input{
+    margin-left:10px;
+    outline:none;
+    border:0;
+}
+.form-btns .btn{
+    width:150px;
+    text-align:center;
 }
