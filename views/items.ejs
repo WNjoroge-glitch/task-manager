@@ -5,7 +5,7 @@
         
         <div class="items">
             <% for(let item of items){ %>
-                <p class="item bg-grey"><%= `${item.id}.${item.name}` %></p>
+                <p class="item bg-grey"> <a href = "/items/<%=item.id %>"><%= `${item.id}.${item.name}` %></a></p>
     
              <% }; %>
         </div>
