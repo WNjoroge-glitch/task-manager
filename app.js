@@ -1,6 +1,17 @@
 const express = require ("express");
+const mysql = require('mysql');
+
 
 const app = express()
+
+const connection = mysql.createConnection({
+   host : 'localhost',
+   user : 'root',
+   password : 'sqlpassword1#',
+   database : 'list_app'
+})
+
+connection.connect();
 
 app.use(express.static("public"));
 
@@ -10,44 +21,100 @@ app.use(express.urlencoded({extended:false}))
 app.set('views','./views')
 app.set('view engine','ejs')
 
-const items = [{id:1,name:'Potatoes'},{id:2,name:'Chilli'},{id:3,name : 'Yams'}]
 
+//index page
 app.get('/', (req,res) => {
    res.render("index")
 } );
 
+
+//items page
 app.get('/items',(req,res)=>{
-   res.render("items",{ items:items })
+  
+  connection.query(
+     'SELECT * FROM items',
+     (error,results) => {
+        
+        res.render("items",{ items:results })
+     }
+  )
 })
+
+//edit page
 
 app.get('/items/:id',(req,res) => {
 //get route parameter(id)
 let id = Number(req.params.id)
-let item = items.find(item => item.id === id)
-res.render('item',{item:item})
+
+connection.query(
+   'SELECT * FROM items WHERE id = ?', id,
+   (error,results) => {
+      
+      if(results){
+         res.render('edit',{item:results[0]})
+      } else {
+         res.render('404')
+      }
+   }
+
+)
+
+
+
 
 })
-//grab form
-
-
+//grab form to add item
 app.get('/create',(req,res) => {
    res.render('create');
 })
 
-//submit form
+//submit form with newly added item
 
 app.post('/create',(req,res) => {
    //grab new item & add to the list
-   
-let count = items.length + 1
-items.push({id:count,name:req.body.newItem})
+let itemName = req.body.newItem
 
+connection.query(
+   'INSERT INTO items (name) VALUES (?)',itemName,
+   (error,results) => {
+      res.redirect('/items')
 
-  //redirect to items page
-  res.redirect('items')
+   }
+)
+
+//redirect to items page
 })
 
 
+
+//update item
+app.post('/update/:id',(req,res) => {
+   let id = Number(req.params.id)
+   let name = req.body.newItem
+
+   connection.query(
+      'UPDATE items SET name = ? WHERE id = ?',
+      [name,id],
+      (error,results) => {
+         res.redirect('/items')
+      }
+   )
+   
+})
+
+//delete item
+
+app.post('/delete/:id', (req,res) => {
+   const id = Number(req.params.id)
+   
+   connection.query(
+      'DELETE FROM items WHERE id = ?',id,
+      (error,results) => {
+         res.redirect('/items')
+      }
+      )
+
+})
 
 
 

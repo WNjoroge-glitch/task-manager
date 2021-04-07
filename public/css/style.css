@@ -93,9 +93,14 @@ ol a{
     
 }
 .item{
-    padding:8px 15px;
+    padding:15px 15px;
     margin-bottom:4px;
     font-size:20px;
+    /* display:flex; */
+}
+
+.buttons{
+    margin-top:20px;
 }
 form{
     display:flex;
@@ -127,4 +132,33 @@ justify-content: center;
 .form-btns .btn{
     width:150px;
     text-align:center;
+}
+.redirect img{
+    display: block;
+    margin:0 auto;
+}
+.action{
+    float:right;
+    transform:translateY(-42px)
+}
+.action form {
+    margin-left:5px
+}
+.edit{
+    background-color:#1daf33;
+    border-color:#1daf33;
+}
+.edit:hover{
+    background-color:#188e2a;
+
+
+}
+.delete{
+    background-color: #e2362d;
+    border-color:#e2362d;
+    
+}
+.delete:hover{
+    background-color:#c42d25;
+    
 }
