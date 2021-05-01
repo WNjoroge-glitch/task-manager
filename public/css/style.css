@@ -105,8 +105,6 @@ ol a{
 form{
     display:flex;
     justify-content: center;
-    
-    
 }
 .form-content{
     width:60%;
@@ -161,4 +159,36 @@ justify-content: center;
 .delete:hover{
     background-color:#c42d25;
     
+}
+.mid{
+    min-height:80vh;
+    max-width:100%;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+.mid form{
+    display: block;
+    border:3px solid #f4f4f4;
+    padding:16px 14px;
+    border-radius: 5px;
+
+}
+.mid input{
+    border-color:#f4f4f4;
+    border:0;
+    outline:none;
+    font-size:26px;
+    padding:8px;
+    border-radius: 5px;
+    width:100%;
+    margin:4px 0;
+
+}
+.mid h2{
+    text-align: center;
+    color:rgba(0, 0, 0, .5)
+}
+.mid p{
+    margin:4px 0;
 }

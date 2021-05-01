@@ -7,6 +7,7 @@ const app = express()
 const connection = mysql.createConnection({
    host : 'localhost',
    user : 'root',
+   port:'3306',
    password : 'sqlpassword1#',
    database : 'list_app'
 })
@@ -50,7 +51,7 @@ connection.query(
    'SELECT * FROM items WHERE id = ?', id,
    (error,results) => {
       
-      if(results){
+      if(results.length === 1){
          res.render('edit',{item:results[0]})
       } else {
          res.render('404')
@@ -58,10 +59,6 @@ connection.query(
    }
 
 )
-
-
-
-
 })
 //grab form to add item
 app.get('/create',(req,res) => {
@@ -81,11 +78,8 @@ connection.query(
 
    }
 )
-
 //redirect to items page
 })
-
-
 
 //update item
 app.post('/update/:id',(req,res) => {
@@ -116,8 +110,51 @@ app.post('/delete/:id', (req,res) => {
 
 })
 
+//get login form 
+app.get('/login',(req,res)=>{
+   res.render('login')
+
+})
+//submit login form
+app.post('/login',(req,res)=>{
+   let email = req.body.email
+   let password = req.body.password
+
+   //todo : add validation
+
+   connection.query('SELECT * FROM users WHERE email = ?',email,(error,results)=>{
+      if(password === results[0].password){
+         console.log("correct password")
+         res.redirect('/items')
+      } else {
+         console.log("incorrect password")
+         res.redirect('/')
+      }
+   })
+
+})
+//get signup form
+app.get('/signup',(req,res)=>{
+  res.render('signup')
+})
+//submit signup form
+app.post('/signup',(req,res)=>{
+   let email = req.body.email
+   let username = req.body.username
+   let password = req.body.password
+   let confirmPassword = req.body.confirmPassword 
+
+   if(password !== confirmPassword){
+      res.status(400).send("passwords don't match")
+   } else {
+      connection.query('INSERT INTO users(username,password,email) VALUES (?,?,?)',[username,password,email],
+      res.redirect('/login')
+      
+      )
+      console.log('Account created successfully')
+   }
 
 
+})
 
-
-app.listen(8080);
+app.listen(8080,()=>{console.log("server open")});

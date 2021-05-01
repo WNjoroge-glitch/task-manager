@@ -1,0 +1,20 @@
+<%- include('partials/header') %>
+
+<div class="mid">
+    <form action="/login" method="POST" class="access">
+        <h2>login</h2>
+        <div>
+            <input class="bg-grey" type="email" name="email" id="email" placeholder="email" required>
+        </div>
+        <div>
+            <input class="bg-grey" type="password" name ="password" id="password" placeholder="password" required>
+        </div>
+        <div>
+            <input class="btn" type="submit" value="login">
+        </div>
+        <p>Not registered?<a href='/signup'>Register here</a></p>
+
+    </form>
+</div>
+
+<%- include('partials/footer') %>"
