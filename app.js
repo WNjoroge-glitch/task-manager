@@ -1,8 +1,16 @@
 const express = require ("express");
 const mysql = require('mysql');
-
+const session = require('express-session')
 
 const app = express()
+
+app.use(
+   session({
+      secret:'vitu fishi',
+      resave:false,
+      saveUninitialized:false
+ })
+)
 
 const connection = mysql.createConnection({
    host : 'localhost',
@@ -23,6 +31,18 @@ app.set('views','./views')
 app.set('view engine','ejs')
 
 
+app.use((req,res,next) =>{
+   if(req.session.userId === undefined){
+      console.log("you are not logged in")
+      //res.redirect('/')
+   } else {
+      console.log("you are logged in");
+      res.locals.username = req.session.username
+      }
+   next()
+
+})
+
 //index page
 app.get('/', (req,res) => {
    res.render("index")
@@ -31,14 +51,16 @@ app.get('/', (req,res) => {
 
 //items page
 app.get('/items',(req,res)=>{
+   
+   connection.query(
+      'SELECT * FROM items WHERE user_id = ?', req.session.userId,
+      (error,results) => {
+         console.log(`userId:${req.session.userId}`)
+         res.render("items",{ items:results })
+      }
+   );
+   
   
-  connection.query(
-     'SELECT * FROM items',
-     (error,results) => {
-        
-        res.render("items",{ items:results })
-     }
-  )
 })
 
 //edit page
@@ -48,7 +70,7 @@ app.get('/items/:id',(req,res) => {
 let id = Number(req.params.id)
 
 connection.query(
-   'SELECT * FROM items WHERE id = ?', id,
+   'SELECT * FROM items WHERE id = ? AND user_id = ? LIMIT 1', [id,req.session.userId],
    (error,results) => {
       
       if(results.length === 1){
@@ -124,6 +146,8 @@ app.post('/login',(req,res)=>{
 
    connection.query('SELECT * FROM users WHERE email = ?',email,(error,results)=>{
       if(password === results[0].password){
+         req.session.userId = results[0].id
+         req.session.username = results[0].username
          console.log("correct password")
          res.redirect('/items')
       } else {
@@ -147,7 +171,7 @@ app.post('/signup',(req,res)=>{
    if(password !== confirmPassword){
       res.status(400).send("passwords don't match")
    } else {
-      connection.query('INSERT INTO users(username,password,email) VALUES (?,?,?)',[username,password,email],
+     connection.query('INSERT INTO users(username,password,email) VALUES (?,?,?)',[username,password,email],
       res.redirect('/login')
       
       )
