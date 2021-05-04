@@ -32,6 +32,16 @@ nav{
     justify-content: space-between;
 }
 
+.logout a{
+  text-decoration: none;
+  color:#54a5a8;
+  font-weight:bolder;
+}
+.username{
+    text-align: right;
+    font-size: 22px;
+}
+
 .home-content{
     height:100vh;
 }
@@ -91,9 +101,7 @@ ol a{
     margin:20px 0;
     
 }
-/* #add{
 
-}  */
 .items{
     margin:20px 0;
     

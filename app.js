@@ -33,11 +33,13 @@ app.set('view engine','ejs')
 
 app.use((req,res,next) =>{
    if(req.session.userId === undefined){
+      res.locals.isLoggedIn = false;
       console.log("you are not logged in")
       //res.redirect('/')
    } else {
       console.log("you are logged in");
       res.locals.username = req.session.username
+      res.locals.isLoggedIn = true
       }
    next()
 
@@ -51,15 +53,18 @@ app.get('/', (req,res) => {
 
 //items page
 app.get('/items',(req,res)=>{
-   
-   connection.query(
-      'SELECT * FROM items WHERE user_id = ?', req.session.userId,
-      (error,results) => {
-         console.log(`userId:${req.session.userId}`)
-         res.render("items",{ items:results })
-      }
-   );
-   
+   if(res.locals.isLoggedIn){
+      connection.query(
+         'SELECT * FROM items WHERE user_id = ?', req.session.userId,
+         (error,results) => {
+            console.log(`userId:${req.session.userId}`)
+            res.render("items",{ items:results })
+         }
+      );
+
+   } else {
+      res.redirect('/login')
+   }
   
 })
 
@@ -69,22 +74,27 @@ app.get('/items/:id',(req,res) => {
 //get route parameter(id)
 let id = Number(req.params.id)
 
-connection.query(
-   'SELECT * FROM items WHERE id = ? AND user_id = ? LIMIT 1', [id,req.session.userId],
-   (error,results) => {
-      
-      if(results.length === 1){
-         res.render('edit',{item:results[0]})
-      } else {
-         res.render('404')
+if(res.locals.isLoggedIn){
+   connection.query(
+      'SELECT * FROM items WHERE id = ? AND user_id = ? LIMIT 1', [id,req.session.userId],
+      (error,results) => {
+         
+         if(results.length === 1){
+            res.render('edit',{item:results[0]})
+         } else {
+            res.render('404')
+         }
       }
-   }
+   
+   )
 
-)
+} else {
+   res.redirect('/login')
+}
 })
 //grab form to add item
 app.get('/create',(req,res) => {
-   res.render('create');
+   res.locals.isLoggedIn ? res.render('create') : res.redirect('/login')
 })
 
 //submit form with newly added item
@@ -94,7 +104,7 @@ app.post('/create',(req,res) => {
 let itemName = req.body.newItem
 
 connection.query(
-   'INSERT INTO items (name) VALUES (?)',itemName,
+   'INSERT INTO items (name,user_id) VALUES (?,?)',[itemName,req.session.userId],
    (error,results) => {
       res.redirect('/items')
 
@@ -109,8 +119,8 @@ app.post('/update/:id',(req,res) => {
    let name = req.body.newItem
 
    connection.query(
-      'UPDATE items SET name = ? WHERE id = ?',
-      [name,id],
+      'UPDATE items SET name = ? WHERE id = ? AND user_id=?',
+      [name,id,req.session.userId],
       (error,results) => {
          res.redirect('/items')
       }
@@ -124,7 +134,7 @@ app.post('/delete/:id', (req,res) => {
    const id = Number(req.params.id)
    
    connection.query(
-      'DELETE FROM items WHERE id = ?',id,
+      'DELETE FROM items WHERE id = ? AND user_id = ?',[id,req.session.userId],
       (error,results) => {
          res.redirect('/items')
       }
@@ -134,7 +144,8 @@ app.post('/delete/:id', (req,res) => {
 
 //get login form 
 app.get('/login',(req,res)=>{
-   res.render('login')
+   res.locals.isLoggedIn ? res.redirect('/items') : res.render('login')
+   
 
 })
 //submit login form
@@ -159,7 +170,7 @@ app.post('/login',(req,res)=>{
 })
 //get signup form
 app.get('/signup',(req,res)=>{
-  res.render('signup')
+  res.locals.isLoggedIn ? res.redirect('/items') : res.render('signup')
 })
 //submit signup form
 app.post('/signup',(req,res)=>{
@@ -178,6 +189,14 @@ app.post('/signup',(req,res)=>{
       console.log('Account created successfully')
    }
 
+})
+
+
+app.get('/logout',(req,res)=>{
+   req.session.destroy((error) =>{
+      console.log("You are logged out")
+      res.redirect('/')
+   })
 
 })
 
