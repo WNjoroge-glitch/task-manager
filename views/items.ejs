@@ -7,24 +7,31 @@
         </div>
 
         <div class="items">
-            <% for(let item of items) { %>
-               <div class="item bg-grey">
-                   <p><%= `${items.indexOf(item)+1}. ${item.name}` %></p>
-                   <div class="action row">
+
+            <% if(items.length < 1){%>
+                <div class="item bg-grey">
+                    <p>You have no item.Please add</p>
+                </div>
+
+            <%} else { %>
+
+                <% for(let item of items) { %>
+                     <div class="item bg-grey">
+                        <p><%= `${items.indexOf(item)+1}. ${item.name}` %></p>
+                        <div class="action row">
                        
-                       <a class="btn edit" href="/items/<%= item.id %>">Edit</a>
+                            <a class="btn edit" href="/items/<%= item.id %>">Edit</a>
                     
 
-                       <form action="/delete/<%= item.id %>" method="POST">
-                        <input class="btn delete" type="submit" value = "Delete">
-                    </form>
+                            <form action="/delete/<%= item.id %>" method="POST">
+                             <input class="btn delete" type="submit" value = "Delete">
+                         </form>
                        
-                   </div>
-               </div>
-
-                
-    
+                        </div>
+                    </div>
             <% }; %>
+
+            <% } %>
         </div>
         
         

@@ -1,6 +1,8 @@
 const express = require ("express");
 const mysql = require('mysql');
 const session = require('express-session')
+const bcrypt = require('bcrypt')
+
 
 const app = express()
 
@@ -156,15 +158,18 @@ app.post('/login',(req,res)=>{
    //todo : add validation
 
    connection.query('SELECT * FROM users WHERE email = ?',email,(error,results)=>{
-      if(password === results[0].password){
-         req.session.userId = results[0].id
-         req.session.username = results[0].username
-         console.log("correct password")
-         res.redirect('/items')
-      } else {
-         console.log("incorrect password")
-         res.redirect('/')
-      }
+      bcrypt.compare(password,results[0].password,(error,isEqual) =>{
+         if(isEqual){
+               req.session.userId = results[0].id
+               req.session.username = results[0].username
+               console.log("correct password")
+               res.redirect('/items')
+            } else {
+               console.log("incorrect password")
+               res.redirect('/')
+            }
+          })
+      
    })
 
 })
@@ -182,10 +187,15 @@ app.post('/signup',(req,res)=>{
    if(password !== confirmPassword){
       res.status(400).send("passwords don't match")
    } else {
-     connection.query('INSERT INTO users(username,password,email) VALUES (?,?,?)',[username,password,email],
-      res.redirect('/login')
-      
-      )
+      bcrypt.hash(password,10,(error,hash) => {
+         connection.query('INSERT INTO users(username,password,email) VALUES (?,?,?)',
+         [username,hash,email],
+         res.redirect('/login')
+         
+         )
+         
+      })
+    
       console.log('Account created successfully')
    }
 
