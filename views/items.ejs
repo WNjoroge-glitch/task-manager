@@ -1,40 +1,146 @@
 <%- include('partials/header') %>
 
-    <div class="container">
-        
-        <div>
-            <a class="btn" id="add" href="/create">Add Item +</a>
+
+
+   <div class="containers">
+        <div class="categories">
+      
+       
+      
+
         </div>
 
-        <div class="items">
+       
 
+        
+
+        <div class="items">
+            <div class="add-item">
+               
+                <p>
+                    <a class="btn addBtn" id="add" data-toggle="collapse" href="#addTask" role="button" aria-expanded="false" aria-controls="collapseExample">
+                     Add New Task
+                    </a>
+                   
+                  </p>
+                  <div class="collapse" id="addTask">
+                    <form action="/create" method="post">
+                        <div class="form-content">
+                        <input type="text" name="newItem" class="new-item " placeholder="Enter new item here" required>
+                        
+
+                        <p>
+                           
+                            <button type="button" data-toggle="collapse" data-target="#collapseExample1" aria-expanded="false" aria-controls="collapseExample" data-toggle="tooltip" data-placement="top" title="Add label(s)">
+                                <span class="iconify" data-icon="bx:bx-purchase-tag"></span>
+                            </button>
+                          </p>
+                          <div class="collapse" id="collapseExample1">
+                            
+                            <input list="labels"  name="label" placeholder="Type category here" />
+                            
+                            
+                            <datalist id="labels" autocomplete="off">
+                              
+                                    <% for (label of items) { %>
+                                        <% if(label.label){ %>
+                                            <option value="<%= label.label %>" class="option"><%= label.label %></option>
+                                        <%}%>
+                                <%}%>
+                               
+                                
+                            </datalist>
+                          </div>
+
+                       
+                
+                
+                       
+                        <div class="form-btns">
+                            <a href="/items" class="btns">Cancel</a>
+                            <input type="submit" class="btn" value="Add">
+                         </div>
+                      
+                    </div>
+                    </form>
+                   
+                   
+                  </div>
+            </div>
+            
             <% if(items.length < 1){%>
                 <div class="item bg-grey">
                     <p>You have no item.Please add</p>
                 </div>
 
             <%} else { %>
+                <h2>Hello <%= locals.username %>,</h2>
+                <h2>You have <span class="tasks"><%= items.length %></span> tasks today</h2>
+             
+                
+                     <form action="" class="item-form">
 
+   
                 <% for(let item of items) { %>
-                     <div class="item bg-grey">
-                        <p><%= `${items.indexOf(item)+1}. ${item.name}` %></p>
+
+                    <div class="itemss">
+                         <div>
+                        
+                            <input type="checkbox" value = "<%= item.name %>" class="itemName" name="name">
+                            <label for="name"><%= item.name %> </label>
+                        
+                        </form>
+                        <p><%= item.label %></p>
+                          </div>
+                 
                         <div class="action row">
                        
-                            <a class="btn edit" href="/items/<%= item.id %>">Edit</a>
+                            
+                            
+                                <button data-toggle="collapse" data-target="#editDiv" role="button" aria-expanded="false" aria-controls="collapseExample" class="editIcon" data-toggle="tooltip" data-placement="top" title="Edit Item">
+                                    <span class="iconify" data-icon="ant-design:edit-twotone"></span>
+                                </button>
+                               
+                              
+                              <div class="collapse" id="editDiv">
+                                <form action="/update/<%= item.id %>" method="post">
+                                    <div class="form-content">
+                                    <input type="text" name="newItem"  class="new-item bg-grey" value ="<%= item.name %>">
+                                    <div class="form-btns">
+                                        <a href="/items" class="btn">Cancel</a>
+                                        <input type="submit" class="btn" value="Save">
+                                        <select name="label" value="<%= item.label %>">
+                                        
+                                                <option value="<%= item.label %>"><%= item.label %></option>
+
+                                          
+                                           
+                                          
+                                        </select>
+                                    </div>
+                                    </div>
+                                </form>
+                              </div>
                     
 
                             <form action="/delete/<%= item.id %>" method="POST">
-                             <input class="btn delete" type="submit" value = "Delete">
+                                <button type="submit" class="editIcon" data-toggle="tooltip" data-placement="top" title="Delete Item">
+                                    <span class="iconify" data-icon="ant-design:delete-outlined"></span>
+                               
+                                </button>
+                               
                          </form>
                        
                         </div>
+     
                     </div>
             <% }; %>
-
+        
             <% } %>
-        </div>
+
         
-        
-    </div>
+  
+
+    
 
 <%- include('partials/footer') %>

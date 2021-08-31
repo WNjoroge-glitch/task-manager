@@ -1,0 +1,12 @@
+
+
+<% for(let item of items){ %>
+    <% if(item.label){ %>
+        <label><%= item.label %>
+            <input type="checkbox" class="input-checkbox" value="<%= item.label %>">
+        </label>
+       
+    <%}%>
+
+<%}%>
+

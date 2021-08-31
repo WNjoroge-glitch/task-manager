@@ -1,0 +1,26 @@
+<%- include ('partials/header') %>
+
+
+<div class="container">
+    <h2>calendar</h2>
+    <div id='calendar'></div>
+    <button id="my-button">Date</button>
+</div>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var calendarEl = document.getElementById('calendar');
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth'
+      });
+      calendar.render();
+
+      document.getElementById('my-button').addEventListener('click', function() {
+  var date = calendar.getDate();
+  alert("The current date of the calendar is " + date.toISOString());
+});
+    });
+</script>
+
+<%- include('partials/footer') %>

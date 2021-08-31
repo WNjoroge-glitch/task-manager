@@ -18,8 +18,9 @@ const connection = mysql.createConnection({
    host : 'localhost',
    user : 'root',
    port:'3306',
-   password : 'sqlpassword1#',
-   database : 'list_app'
+   password : 'sql1pass',
+   database : 'taskmanager',
+   multipleStatements:true
 })
 
 connection.connect();
@@ -36,10 +37,10 @@ app.set('view engine','ejs')
 app.use((req,res,next) =>{
    if(req.session.userId === undefined){
       res.locals.isLoggedIn = false;
-      console.log("you are not logged in")
+     
       //res.redirect('/')
    } else {
-      console.log("you are logged in");
+      
       res.locals.username = req.session.username
       res.locals.isLoggedIn = true
       }
@@ -59,7 +60,7 @@ app.get('/items',(req,res)=>{
       connection.query(
          'SELECT * FROM items WHERE user_id = ?', req.session.userId,
          (error,results) => {
-            console.log(`userId:${req.session.userId}`)
+            
             res.render("items",{ items:results })
          }
       );
@@ -70,6 +71,12 @@ app.get('/items',(req,res)=>{
   
 })
 
+//json items page
+app.get('/items.json',(req,res)=>{
+   connection.query('SELECT * FROM items WHERE user_id = ?',req.session.userId,(error,results)=>{
+      res.json(results)
+   })
+})
 //edit page
 
 app.get('/items/:id',(req,res) => {
@@ -96,7 +103,11 @@ if(res.locals.isLoggedIn){
 })
 //grab form to add item
 app.get('/create',(req,res) => {
-   res.locals.isLoggedIn ? res.render('create') : res.redirect('/login')
+   connection.query('SELECT DISTINCT label from items',(error,results)=>{
+     
+      res.locals.isLoggedIn ? res.render('create',{labels:results}) : res.redirect('/login')
+   })
+   
 })
 
 //submit form with newly added item
@@ -104,11 +115,19 @@ app.get('/create',(req,res) => {
 app.post('/create',(req,res) => {
    //grab new item & add to the list
 let itemName = req.body.newItem
+let label = req.body.label
+let status = req.body.status
+
 
 connection.query(
-   'INSERT INTO items (name,user_id) VALUES (?,?)',[itemName,req.session.userId],
+   'INSERT INTO items (user_id,name,label) VALUES (?,?,?)',[req.session.userId,itemName,label],
    (error,results) => {
+      if(error){
+         console.log(error)
+      }
+      
       res.redirect('/items')
+      
 
    }
 )
@@ -119,10 +138,11 @@ connection.query(
 app.post('/update/:id',(req,res) => {
    let id = Number(req.params.id)
    let name = req.body.newItem
+   let label = req.body.label
 
    connection.query(
-      'UPDATE items SET name = ? WHERE id = ? AND user_id=?',
-      [name,id,req.session.userId],
+      'UPDATE items SET name = ?,label = ? WHERE id = ? AND user_id=?',
+      [name,label,id,req.session.userId],
       (error,results) => {
          res.redirect('/items')
       }
@@ -208,6 +228,10 @@ app.get('/logout',(req,res)=>{
       res.redirect('/')
    })
 
+})
+
+app.get('/calendar',(req,res)=>{
+   res.render('calendar')
 })
 
 app.listen(8080,()=>{console.log("server open")});
