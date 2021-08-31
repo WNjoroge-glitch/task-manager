@@ -102,13 +102,7 @@ if(res.locals.isLoggedIn){
 }
 })
 //grab form to add item
-app.get('/create',(req,res) => {
-   connection.query('SELECT DISTINCT label from items',(error,results)=>{
-     
-      res.locals.isLoggedIn ? res.render('create',{labels:results}) : res.redirect('/login')
-   })
-   
-})
+
 
 //submit form with newly added item
 
