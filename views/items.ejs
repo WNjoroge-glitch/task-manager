@@ -77,34 +77,41 @@
                 <h2>Hello <%= locals.username %>,</h2>
                 <h2>You have <span class="tasks"><%= items.length %></span> tasks today</h2>
              
-                
-                     <form action="" class="item-form">
+<!--                 
+                     <form action="" class="item-form"> -->
 
    
                 <% for(let item of items) { %>
+                    
+                          
 
                     <div class="itemss">
                          <div>
                         
                             <input type="checkbox" value = "<%= item.name %>" class="itemName" name="name">
                             <label for="name"><%= item.name %> </label>
-                        
-                        </form>
+<!--                         
+                        </form> -->
                         <p><%= item.label %></p>
                           </div>
                  
                         <div class="action row">
-                       
+
+                          
+                     
                             
-                            
-                                <button data-toggle="collapse" data-target="#editDiv" role="button" aria-expanded="false" aria-controls="collapseExample" class="editIcon" data-toggle="tooltip" data-placement="top" title="Edit Item">
+                             <p>
+                                <button data-toggle="collapse" data-target="<%= '#' + item.id %>" role="button" aria-expanded="false" aria-controls="collapseExample" class="editIcon" data-toggle="tooltip" data-placement="top" title="Edit Item">
                                     <span class="iconify" data-icon="ant-design:edit-twotone"></span>
                                 </button>
-                               
+                            </p>
+                             
                               
-                              <div class="collapse" id="editDiv">
+                              <div class="collapse" id="<%= item.id %>">
                                 <form action="/update/<%= item.id %>" method="post">
                                     <div class="form-content">
+                                      <p><%= item.name%></p>
+
                                     <input type="text" name="newItem"  class="new-item bg-grey" value ="<%= item.name %>">
                                     <div class="form-btns">
                                         <a href="/items" class="btn">Cancel</a>
@@ -135,12 +142,12 @@
      
                     </div>
             <% }; %>
-        
+       
             <% } %>
 
         
   
 
     
-
+        </div>
 <%- include('partials/footer') %>

@@ -61,7 +61,7 @@ app.get('/items',(req,res)=>{
          'SELECT * FROM items WHERE user_id = ?', req.session.userId,
          (error,results) => {
             
-            res.render("items",{ items:results })
+            res.render("items",{items:results})
          }
       );
 
@@ -134,8 +134,10 @@ app.post('/update/:id',(req,res) => {
    let name = req.body.newItem
    let label = req.body.label
 
+  
+
    connection.query(
-      'UPDATE items SET name = ?,label = ? WHERE id = ? AND user_id=?',
+      'UPDATE items SET name = ?,label = ? WHERE id = ? AND user_id = ?',
       [name,label,id,req.session.userId],
       (error,results) => {
          res.redirect('/items')
@@ -227,5 +229,6 @@ app.get('/logout',(req,res)=>{
 app.get('/calendar',(req,res)=>{
    res.render('calendar')
 })
+
 
 app.listen(8080,()=>{console.log("server open")});

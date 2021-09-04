@@ -23,11 +23,14 @@ header{
     border-radius: 5px;
     justify-content: space-between;
 }
-.left img{
-    width:500px;
-}
+
 .right{
     padding:0 30px;
+}
+.right a{
+    margin:10px 0;
+    
+    text-decoration: none;
 }
 .display{
     display:none;
@@ -79,6 +82,9 @@ nav{
 
 .home-content{
     height:100vh;
+    display:grid;
+    grid-template-columns: repeat(2,1fr);
+    align-items: center;
 }
 
 .align-center{
@@ -100,7 +106,7 @@ nav{
 .brand-btn{
     background-color:#2F4858;
     border-color:#2F4858;
-    padding:14px 12px;
+    padding:5px 20px;
     color:#fff;
     text-decoration: none;                                                                                                                                                                                                                                                                                                                          
     font-size:22px;
@@ -135,7 +141,7 @@ ol a{
 }
 
 .illustration{
-    width:80%;
+    width:900px;
 }
 .items{
     margin:20px 0;
@@ -156,7 +162,7 @@ ol a{
     padding:15px 15px;
     margin-bottom:4px;
     font-size:20px;
-    /* display:flex; */
+    
 }
 
 .buttons{
